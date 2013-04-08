@@ -6,8 +6,7 @@ interface i_data_access {
 }
 
 class data_access implements i_data_access {
-	public $database_scheme = "mysqli";
-	
+	public $database_scheme = "mysqli";	
 	public $db_proxy;
 	
 	protected static $instance;
