@@ -90,7 +90,7 @@ class storage implements i_storage{
 
 class memcache_storage implements i_storage {
 	protected $connection = null;
-    protected $hostname = "192.168.0.51";
+    protected $hostname = null;
     protected $port = 11211;
 
     public function start(){
@@ -126,11 +126,11 @@ class memcache_storage implements i_storage {
 
 class mysql_storage {
     protected $connection;
-    protected $hostname = "127.0.0.1";
+    protected $hostname = null;
     protected $port = 3306;
-    protected $database = "ws51";
-    protected $username = "root";
-    protected $password = "127.0.0.1"; 
+    protected $database = "rbac";
+    protected $username = null;
+    protected $password = null; 
     
     const TINY_INT_TYPE = 1;
     const MIDDLE_INT_TYPE = 2;

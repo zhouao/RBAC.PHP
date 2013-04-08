@@ -41,10 +41,10 @@ class data_access implements i_data_access {
 
 class mysqli_data_access implements i_data_access {
 	protected $connection;
-	protected $hostname = "192.168.0.51";
-	protected $username = "ofcdb";
-	protected $password = "ofcdb!@#";
-	protected $database = "ws51rbac";
+	protected $hostname = null;
+	protected $username = null;
+	protected $password = null;
+	protected $database = "rbac";
 	
 	public function initialize($connection = null){
 		if($connection == null){
@@ -77,10 +77,10 @@ class mysqli_data_access implements i_data_access {
 
 class mysql_data_access implements i_data_access {
 	protected $connection;
-	protected $hostname = "127.0.0.1";
-	protected $username = "root";
-	protected $password = "123456";
-	protected $database = "ws51";
+	protected $hostname = null;
+	protected $username = null;
+	protected $password = null;
+	protected $database = "rbac";
 	
 	public function initialize($connection = null){
 		if($connection == null){
