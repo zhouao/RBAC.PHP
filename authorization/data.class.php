@@ -64,7 +64,6 @@ class data {
         }
         $object_ids = array_unique($object_ids);
         $sql="select * from rbac_objects where id in (".(join(",",$object_ids)).")";
-        //print_r($object_ids);exit;
         $rows = $this->db->query($sql);
         foreach($rows as $row){
             $object = new object($row->id);
@@ -76,7 +75,6 @@ class data {
             }
             $this->objects[$object->id] = $object;
         }
-        //print_r($this->objects);
     }
 
     public function load_permissions(){
@@ -85,6 +83,7 @@ class data {
         if($role_ids!=null){
             $sql.=" or (owner_id in ('".(join(',',$role_ids))."') and owner_type='{$this->role_type}')";
         }
+    	//echo $sql;
         $rows = $this->db->query($sql);
         foreach($rows as $row){
             $permission = new permission();
@@ -93,9 +92,6 @@ class data {
             $certifiable_item = &$this->certifiable_items[$row->object_id];
             if($certifiable_item == null){
                 $object = &$this->objects[$row->object_id];
-                //if($object == null){
-                //    $object = new object($row->object_id);
-                //}
                 $certifiable_item = new certifiable_item($object);
             }
             $certifiable_item->add_permission($row->operation_id, $permission);
@@ -132,10 +128,8 @@ class data {
     }
 
     public function load_certifiable(){
-        //$this->load_objects();
         $this->load_permissions();
         $this->load_objects();
-        //print_r($this->objects);exit;
         $this->load_permission_scopes();
         foreach($this->certifiable_items as $certifiable_item){
             $this->certifiable->add($certifiable_item);
@@ -143,12 +137,16 @@ class data {
     }
 
     public function get_path_ids($key){
-        $row = $this->db->query("select id,parents_path from rbac_objects where `key`='$key' limit 1")[0];
+		$sql="select id,parents_path from rbac_objects where `key`='$key' limit 1";
+
+        $rows = $this->db->query($sql);
+		$row = $rows[0];
         if($row!=null && $row->parents_path>""){
             return explode(",", trim($row->parents_path.",".$row->id,','));
         }else{
             return null;
         }
     }
+
 }
 ?>
