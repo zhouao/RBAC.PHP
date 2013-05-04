@@ -43,12 +43,43 @@ class certifiable {
         $target_node = $item;
 	}	
 	
+	public function get_permissions($path_ids){
+		$current_node = $this->detail;
+		$permissions = array();
+		foreach($path_ids as $id){
+			$current_node = $current_node->children[$id];
+			if($current_node == null){
+				break;
+			}
+			if($current_node->permissions!=null&&count($current_node->permissions)>0){
+				foreach($current_node->permissions as $key=>$permission){
+					$exist_permission = &$permissions[$key];
+					if($exist_permission == null || !$exist_permission->is_forcedown){
+						$exist_permission = $permission;
+					}
+				}
+			}
+		}
+		return $permissions;
+	}
 	public function get($path_ids){
+		return $this->get_opeartion_id($path_ids,null);
+	}
+	public function get_opeartion_id($path_ids, $operation_id){
 		$current_node = $this->detail;
 		foreach($path_ids as $id){
 			$current_node = $current_node->children[$id];
 			if($current_node == null){
 				return null;
+			}
+			if($operation_id!=null){
+				$permission = $current_node->permissions[$operation_id];
+				if($permission!=null){
+					if($permission->is_forcedown){
+						break;
+					}
+				}
+				
 			}
 		}
 		return $current_node;
